@@ -26,7 +26,7 @@ interface MenuItemDetailProps {
 
 const MenuItemDetail = ({ item, onClose, onAddToCart }: MenuItemDetailProps) => {
   const availableSizes = item.available_sizes && item.available_sizes.length > 0 ? item.available_sizes : ['MEDIUM'];
-  const [selectedSize, setSelectedSize] = useState(availableSizes[0]);
+  const [selectedSize] = useState(availableSizes[0]);
   const [quantity, setQuantity] = useState(1);
   
   // Convert to numbers to handle API returning strings

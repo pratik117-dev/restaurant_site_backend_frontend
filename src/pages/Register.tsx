@@ -30,7 +30,7 @@ const Register = () => {
   const handleVerifyOTP = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await api.post('/auth/verify-otp/', { email, otp });
+       await api.post('/auth/verify-otp/', { email, otp });
       toast.success('Account created! Logging in...');
       // Handle login
       navigate('/');
