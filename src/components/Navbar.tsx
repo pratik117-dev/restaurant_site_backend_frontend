@@ -61,7 +61,7 @@ const Navbar = () => {
                 <span className="text-2xl md:text-4xl">☕</span>
               </div>
               <span className="text-xl md:text-3xl font-extrabold text-white tracking-tight group-hover:text-orange-100 transition-colors duration-300">
-                Chiya Adda
+                Chiya Hub
               </span>
             </Link>
 
