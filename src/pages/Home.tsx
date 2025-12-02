@@ -85,7 +85,7 @@ const Home = () => {
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-2 bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
             Our Menu
           </h1>
-          <p className="text-sm sm:text-base text-gray-600">Discover our delicious selection, Deliver All Over Urlabari, Manglabare, Durgapuri, Sombare, Damak </p>
+          <p className="text-sm sm:text-base text-gray-600">“We deliver the food you actually want — not the cold, late, disappointing stuff you’re tired of. Whether you’re in Urlabari, Manglabare, Durgapuri, Sombare, or Damak, we bring top-quality meals from trusted local kitchens right to your doorstep. No excuses, no delays — just reliable delivery and real flavor.” </p>
         </div>
         
         {/* Category Filter Buttons */}

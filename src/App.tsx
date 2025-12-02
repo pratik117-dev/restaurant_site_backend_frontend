@@ -12,6 +12,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 // ... (rest of the file remains the same)
 
 import Checkout from './pages/Checkout';  // Added
+import ContactPage from './pages/Contact';
+import AboutPage from './pages/About';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Toaster />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
