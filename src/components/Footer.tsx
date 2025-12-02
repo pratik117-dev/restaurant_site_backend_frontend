@@ -10,7 +10,7 @@ const Footer = () => {
           <div className="mb-4 md:mb-0 text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start space-x-2 mb-2">
               <span className="text-4xl">☕</span>
-              <h3 className="text-2xl font-bold text-orange-100">Chiya Restaurant</h3>
+              <h3 className="text-2xl font-bold text-orange-100">Chiya Hub</h3>
             </div>
             <p className="text-orange-200/80 text-sm">Brewing happiness, one cup at a time</p>
           </div>
@@ -92,7 +92,7 @@ const Footer = () => {
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.736 6.979C9.208 6.193 9.696 6 10 6c.304 0 .792.193 1.264.979a1 1 0 001.715-1.029C12.279 4.784 11.232 4 10 4s-2.279.784-2.979 1.95c-.285.475-.507 1-.67 1.55H6a1 1 0 000 2h.013a9.358 9.358 0 000 1H6a1 1 0 100 2h.351c.163.55.385 1.075.67 1.55C7.721 15.216 8.768 16 10 16s2.279-.784 2.979-1.95a1 1 0 10-1.715-1.029c-.472.786-.96.979-1.264.979-.304 0-.792-.193-1.264-.979a4.265 4.265 0 01-.264-.521H10a1 1 0 100-2H8.017a7.36 7.36 0 010-1H10a1 1 0 100-2H8.472c.08-.185.167-.36.264-.521z" clipRule="evenodd" />
             </svg>
-            <span>&copy; 2023 Chiya Restaurant. All rights reserved.</span>
+            <span>&copy; 2025 Chiya Hub. All rights reserved.</span>
           </p>
         </div>
       </div>

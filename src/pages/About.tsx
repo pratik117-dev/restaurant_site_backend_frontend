@@ -1,56 +1,47 @@
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const AboutPage = () => {
   const [activeStory, setActiveStory] = useState(0);
+  const navigate = useNavigate();
 
   const stories = [
     {
-      year: "2010",
+      year: "2024",
       title: "The Beginning",
       description: "Started as a small family kitchen with a passion for authentic flavors and fresh ingredients."
     },
     {
-      year: "2015",
+      year: "2025",
       title: "Growth & Recognition",
       description: "Expanded our dining space and received our first culinary award for excellence in service."
     },
     {
-      year: "2020",
-      title: "Innovation",
-      description: "Introduced our farm-to-table initiative, partnering with local farmers for the freshest ingredients."
-    },
-    {
-      year: "2024",
-      title: "Today",
-      description: "Proud to serve thousands of happy customers while maintaining our commitment to quality and tradition."
+      year: "2026 ",
+      title: "Plan",
+      description: "Willing to serve thousands of happy customers while maintaining our commitment to quality and tradition."
     }
   ];
 
   const team = [
     {
-      name: "Chef Marco Rodriguez",
+      name: "Chef Meghraj",
       role: "Head Chef",
       image: "👨‍🍳",
-      description: "20+ years of culinary excellence"
+      description: "5 years of experience"
     },
     {
-      name: "Sarah Chen",
+      name: "Keshav Nepal",
       role: "Restaurant Manager",
-      image: "👩‍💼",
+      image: "👨‍🍳",
       description: "Expert in hospitality management"
     },
     {
-      name: "James Wilson",
+      name: "Bhuwan Thapa",
       role: "Sous Chef",
       image: "👨‍🍳",
-      description: "Specialist in fusion cuisine"
+      description: "Specialist in Chicken Item "
     },
-    {
-      name: "Emily Parker",
-      role: "Pastry Chef",
-      image: "👩‍🍳",
-      description: "Award-winning dessert creator"
-    }
   ];
 
   const values = [
@@ -96,16 +87,16 @@ const AboutPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-pink-50">
       {/* Map Section */}
       <div className="w-full h-96 sm:h-[28rem] lg:h-[32rem] relative overflow-hidden">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.1688993449757!2d85.31037507549658!3d27.71516127619555!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb18fc96fd742b%3A0x6947f123a717e5fa!2sKathmandu%2C%20Nepal!5e0!3m2!1sen!2s!4v1234567890123!5m2!1sen!2s"
-          width="100%"
-          height="100%"
-          style={{ border: 0 }}
-          allowFullScreen
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          title="Restaurant Location Map"
-        ></iframe>
+  <iframe
+  src="https://www.google.com/maps?q=26.659696,87.636935&output=embed"
+  width="100%"
+  height="100%"
+  style={{ border: 0 }}
+  allowFullScreen
+  loading="lazy"
+  referrerPolicy="no-referrer-when-downgrade"
+  title="Chiya Hub Location"
+></iframe>
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6 sm:p-8">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2">Find Us Here</h2>
@@ -114,7 +105,7 @@ const AboutPage = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              123 Food Street, Culinary District, New York, NY 10001
+              Pasupati Marga, Morang District, Urlabari, Nepal
             </p>
           </div>
         </div>
@@ -220,7 +211,7 @@ const AboutPage = () => {
           <p className="text-gray-600 text-base sm:text-lg text-center max-w-2xl mx-auto mb-8 sm:mb-12">
             The talented individuals who bring our culinary vision to life every day
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 ">
             {team.map((member, index) => (
               <div
                 key={index}
@@ -248,7 +239,7 @@ const AboutPage = () => {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12">
             <div className="text-center">
               <div className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-2 sm:mb-3">
-                14+
+                2+
               </div>
               <p className="text-white/90 text-sm sm:text-base lg:text-lg font-medium">
                 Years of Excellence
@@ -256,7 +247,7 @@ const AboutPage = () => {
             </div>
             <div className="text-center">
               <div className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-2 sm:mb-3">
-                50K+
+                10K+
               </div>
               <p className="text-white/90 text-sm sm:text-base lg:text-lg font-medium">
                 Happy Customers
@@ -264,7 +255,7 @@ const AboutPage = () => {
             </div>
             <div className="text-center">
               <div className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-2 sm:mb-3">
-                200+
+                100+
               </div>
               <p className="text-white/90 text-sm sm:text-base lg:text-lg font-medium">
                 Menu Items
@@ -272,7 +263,7 @@ const AboutPage = () => {
             </div>
             <div className="text-center">
               <div className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-2 sm:mb-3">
-                15+
+                3+
               </div>
               <p className="text-white/90 text-sm sm:text-base lg:text-lg font-medium">
                 Award Wins
@@ -291,12 +282,16 @@ const AboutPage = () => {
               Join us for an unforgettable dining experience. Reserve your table today!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-base sm:text-lg">
+                <Link to="/contact" >
+              <button  className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-base sm:text-lg">
                 Make a Reservation
               </button>
+              </Link>
+              <Link to="/">
               <button className="bg-white border-2 border-orange-500 text-orange-600 hover:bg-orange-50 px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-base sm:text-lg">
                 View Our Menu
               </button>
+              </Link>
             </div>
           </div>
         </div>

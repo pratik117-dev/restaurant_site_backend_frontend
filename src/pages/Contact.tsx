@@ -68,7 +68,7 @@ const ContactPage = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="John Doe"
+                    placeholder="Chiya Hub"
                     className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-sm sm:text-base"
                     required
                   />
@@ -81,7 +81,7 @@ const ContactPage = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="john@example.com"
+                    placeholder="chiyahub@gmail.com"
                     className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-sm sm:text-base"
                     required
                   />
@@ -96,7 +96,7 @@ const ContactPage = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="+1 (555) 000-0000"
+                    placeholder="+977 98********"
                     className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-sm sm:text-base"
                   />
                 </div>
@@ -169,9 +169,9 @@ const ContactPage = () => {
                 <div>
                   <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">Visit Us</h3>
                   <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
-                    123 Food Street<br />
-                    Culinary District<br />
-                    New York, NY 10001
+                    Pashupati Marga<br />
+                    Morang District<br />
+                    Urlabari, Nepal
                   </p>
                 </div>
               </div>
@@ -189,11 +189,11 @@ const ContactPage = () => {
                   <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">Call Us</h3>
                   <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
                     <span className="hover:text-orange-600 transition-colors cursor-pointer">
-                      +1 (555) 123-4567
+                      +977 9849507462
                     </span>
                     <br />
                     <span className="hover:text-orange-600 transition-colors cursor-pointer">
-                      +1 (555) 987-6543
+                      +977 9849507462
                     </span>
                   </p>
                 </div>
@@ -212,11 +212,11 @@ const ContactPage = () => {
                   <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">Email Us</h3>
                   <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
                     <span className="hover:text-orange-600 transition-colors cursor-pointer">
-                      info@restaurant.com
+                      chiyahub@gmail.com
                     </span>
                     <br />
                     <span className="hover:text-orange-600 transition-colors cursor-pointer">
-                      reservations@restaurant.com
+                      chiyahub@gmail.com
                     </span>
                   </p>
                 </div>
@@ -235,16 +235,8 @@ const ContactPage = () => {
                   <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">Opening Hours</h3>
                   <div className="text-gray-600 text-sm sm:text-base space-y-1">
                     <p className="flex justify-between">
-                      <span className="font-semibold">Mon - Thu:</span>
-                      <span>11:00 AM - 10:00 PM</span>
-                    </p>
-                    <p className="flex justify-between">
-                      <span className="font-semibold">Fri - Sat:</span>
-                      <span>11:00 AM - 11:00 PM</span>
-                    </p>
-                    <p className="flex justify-between">
-                      <span className="font-semibold">Sunday:</span>
-                      <span>12:00 PM - 9:00 PM</span>
+                      <span className="font-semibold">Every Day: </span>
+                      <span>8:00 AM - 09:00 PM</span>
                     </p>
                   </div>
                 </div>
