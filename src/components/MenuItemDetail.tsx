@@ -5,6 +5,7 @@ interface MenuItem {
   name: string;
   description: string;
   price: number;
+  image_url: string;
   image: string;
   category: string;
   available_sizes: string[];
@@ -72,7 +73,7 @@ const MenuItemDetail = ({ item, onClose, onAddToCart }: MenuItemDetailProps) => 
           {/* Image */}
           <div className="relative rounded-2xl overflow-hidden shadow-xl bg-gradient-to-br from-orange-100 to-red-100">
             <img 
-              src={item.image} 
+              src={item.image_url} 
               alt={item.name} 
               className="w-full h-64 md:h-80 object-cover"
               onError={(e) => { e.currentTarget.src = '/placeholder.png'; }}
