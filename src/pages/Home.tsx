@@ -11,6 +11,7 @@ interface MenuItem {
   name: string;
   description: string;
   price: number;
+  image_url: string;
   image: string;
   category: string;
   available_sizes: string[];
@@ -59,7 +60,7 @@ const Home = () => {
       name: item.name, 
       price: item.price, 
       quantity: 1, 
-      image: item.image,
+      image: item.image_url,
       selectedSize: 'BASE', 
       selectedCategory: item.category 
     }));
@@ -170,7 +171,7 @@ const Home = () => {
                 {/* Image Container */}
                 <div className="relative h-40 sm:h-48 overflow-hidden bg-gray-100">
                   <img 
-                    src={item.image} 
+                    src={item.image_url} 
                     alt={item.name} 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" 
                     onError={(e) => { e.currentTarget.src = '/placeholder.png'; }}

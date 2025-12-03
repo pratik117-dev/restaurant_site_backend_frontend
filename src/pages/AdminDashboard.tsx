@@ -6,7 +6,7 @@ interface Order {
   id: number;
   user: { email: string };
   user_name: string;
-  items: { id: number; name: string; image: string; quantity: number; price: number }[];
+  items: { id: number; name: string; image_url: string; quantity: number; price: number }[];
   status: string;
   total_price: string;
   created_at: string;
@@ -20,6 +20,7 @@ interface MenuItem {
   name: string;
   description: string;
   price: number;
+  image_url: string;
   image: string;
   category: string;
 }
@@ -339,7 +340,7 @@ const AdminDashboard = () => {
                         <div className="space-y-2">
                           {order.items.map((item, index) => (
                             <div key={index} className="flex items-center gap-2">
-                              <img src={item.image} alt={item.name} className="w-8 h-8 object-cover rounded" />
+                              <img src={item.image_url} alt={item.name} className="w-8 h-8 object-cover rounded" />
                               <span className="text-sm text-gray-800 font-semibold">{item.name} x {item.quantity} (RS.{item.price})</span>
                             </div>
                           ))}
@@ -427,7 +428,7 @@ const AdminDashboard = () => {
                 <article key={item.id} className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 group">
                   <div className="relative overflow-hidden">
                     <img 
-                      src={item.image} 
+                      src={item.image_url} 
                       alt={item.name} 
                       className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300" 
                     />
