@@ -92,60 +92,62 @@ const Home = () => {
         {/* Category Filter Buttons */}
         <div className="mb-6 sm:mb-8">
           <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
-            <button 
-              onClick={() => setSelectedCategory('All')} 
-              className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 RS{
-                selectedCategory === 'All' 
-                  ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white' 
-                  : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200'
-              }`}
-            >
-              <span className="flex items-center space-x-2">
-                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
-                </svg>
-                <span>All</span>
-              </span>
-            </button>
-            <button 
-              onClick={() => setSelectedCategory('CHICKEN')} 
-              className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 RS.{
-                selectedCategory === 'CHICKEN' 
-                  ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white' 
-                  : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200'
-              }`}
-            >
-              <span className="flex items-center space-x-2">
-                <span>🍗</span>
-                <span>Chicken</span>
-              </span>
-            </button>
-            <button 
-              onClick={() => setSelectedCategory('VEG')} 
-              className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 RS.{
-                selectedCategory === 'VEG' 
-                  ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white' 
-                  : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200'
-              }`}
-            >
-              <span className="flex items-center space-x-2">
-                <span>🥗</span>
-                <span>Veg</span>
-              </span>
-            </button>
-            <button 
-              onClick={() => setSelectedCategory('DRINKS')} 
-              className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 RS.{
-                selectedCategory === 'DRINKS' 
-                  ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white' 
-                  : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200'
-              }`}
-            >
-              <span className="flex items-center space-x-2">
-                <span>🍾</span>
-                <span>Drinks</span>
-              </span>
-            </button>
+         <button
+  onClick={() => setSelectedCategory('All')}
+  className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 ${
+    selectedCategory === 'All'
+      ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white'
+      : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200'
+  }`}
+>
+  <span className="flex items-center space-x-2">
+    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
+      <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+    </svg>
+    <span>All</span>
+  </span>
+</button>
+
+<button
+  onClick={() => setSelectedCategory('CHICKEN')}
+  className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 ${
+    selectedCategory === 'CHICKEN'
+      ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white'
+      : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200'
+  }`}
+>
+  <span className="flex items-center space-x-2">
+    <span>🍗</span>
+    <span>Chicken</span>
+  </span>
+</button>
+<button
+  onClick={() => setSelectedCategory('VEG')}
+  className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 ${
+    selectedCategory === 'VEG'
+      ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white'
+      : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200'
+  }`}
+>
+  <span className="flex items-center space-x-2">
+    <span>🥗</span>
+    <span>Veg</span>
+  </span>
+</button>
+<button
+  onClick={() => setSelectedCategory('DRINKS')}
+  className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 ${
+    selectedCategory === 'DRINKS'
+      ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white'
+      : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200'
+  }`}
+>
+  <span className="flex items-center space-x-2">
+    <span>🍾</span>
+    <span>Drinks</span>
+  </span>
+</button>
+
           </div>
         </div>
         
