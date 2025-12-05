@@ -28,7 +28,7 @@ const Register = () => {
     localStorage.setItem('token', response.data.token);
     
     toast.success('Account created successfully!');
-    navigate('/');
+    navigate('/login');
   } catch (err: any) {
     console.error('Registration error:', err);
     console.error('Error response:', err.response);

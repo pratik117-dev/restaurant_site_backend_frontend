@@ -196,6 +196,12 @@ const AdminDashboard = () => {
           icon: '📦',
           dotColor: 'bg-green-500'
         };
+      case 'PAID': 
+        return { 
+          color: 'bg-green-100 text-green-700 border-green-300',
+          icon: '💰',
+          dotColor: 'bg-green-500'
+        };
       default: 
         return { 
           color: 'bg-gray-100 text-gray-700 border-gray-300',
@@ -362,6 +368,7 @@ const AdminDashboard = () => {
                           <option value="CANCELLED">❌ Cancelled</option>
                           <option value="DELIVERYOUT">🚚 Out For delivery</option>
                           <option value="DELIVERED">📦 Delivered Successfully</option>
+                          <option value="PAID">💰 Paid</option>
                         </select>
                       </div>
 
