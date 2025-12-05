@@ -4,7 +4,7 @@ import api from '../api';
 
 interface Order {
   id: number;
-  items: { id: number; name: string; image: string; quantity: number; price: number }[];
+  items: { id: number; name: string; image: string; image_url: string; quantity: number; price: number }[];
   status: string;
   total_price: string;
   created_at: string;
@@ -39,6 +39,7 @@ const MyOrders = () => {
       case 'ACCEPTED': return 'text-green-600 bg-green-50 border-green-200';
       case 'DELIVERYOUT': return 'text-blue-600 bg-blue-50 border-blue-200';
       case 'CANCELLED': return 'text-red-600 bg-red-50 border-red-200';
+      case 'PAID': return 'text-blue-600 bg-blue-50 border-blue-200';
       default: return 'text-gray-600 bg-gray-50 border-gray-200';
     }
   };
@@ -85,6 +86,7 @@ const MyOrders = () => {
       case 'ACCEPTED': return 'Accepted';
       case 'DELIVERYOUT': return 'Out for Delivery';
       case 'CANCELLED': return 'Cancelled';
+      case 'PAID': return 'Paid';
       default: return status;
     }
   };
@@ -186,7 +188,7 @@ const MyOrders = () => {
                           >
                             <div className="w-12 h-12 flex-shrink-0 bg-white rounded-lg overflow-hidden shadow-sm border-2 border-orange-200 group-hover:border-orange-400 transition-colors">
                               <img
-                                src={item.image}
+                                src={item.image_url}
                                 alt={item.name}
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                                 onError={(e) => { e.currentTarget.src = '/placeholder.png'; }}
