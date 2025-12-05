@@ -37,7 +37,7 @@ const AboutPage = () => {
       description: "Expert in hospitality management"
     },
     {
-      name: "Bhuwan Thapa",
+      name: "Bhuwan Magrati",
       role: "Sous Chef",
       image: "👨‍🍳",
       description: "Specialist in Chicken Item "

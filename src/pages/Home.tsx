@@ -88,7 +88,7 @@ const Home = () => {
           </h1>
           <p className="text-sm sm:text-base text-gray-600">“We deliver the food you actually want — not the cold, late, disappointing stuff you’re tired of. Whether you’re in Urlabari, Manglabare, Durgapuri, Sombare, or Damak, we bring top-quality meals from trusted local kitchens right to your doorstep. No excuses, no delays — just reliable delivery and real flavor.” 
           </p>
-            <b>For consult contact : Keshav Nepal [1234567890] </b>
+            <b>For consult contact : Keshav Nepal [9816337600] </b>
         </div>
         
         {/* Category Filter Buttons */}
