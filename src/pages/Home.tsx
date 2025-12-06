@@ -23,6 +23,9 @@ const Home = () => {
   const [filteredMenu, setFilteredMenu] = useState<MenuItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
+  const [deliveryAvailable, setDeliveryAvailable] = useState(true);
+  const [loading, setLoading] = useState(true);
+  
   const dispatch = useDispatch<AppDispatch>();
   const { token } = useSelector((state: RootState) => state.auth);
   const searchQuery = useSelector((state: RootState) => state.search.query);
@@ -31,8 +34,25 @@ const Home = () => {
     api.get('/menu/').then((res) => {
       setMenu(res.data);
       setFilteredMenu(res.data);
+      setLoading(false);
     });
   }, []);
+  
+  // Fetch delivery status
+  useEffect(() => {
+    fetchDeliveryStatus();
+    const interval = setInterval(fetchDeliveryStatus, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const fetchDeliveryStatus = async () => {
+    try {
+      const res = await api.get('/admin/delivery-status/');
+      setDeliveryAvailable(res.data.available);
+    } catch (err) {
+      console.error('Failed to load delivery status');
+    }
+  };
 
   useEffect(() => {
     let filtered = menu;
@@ -46,15 +66,24 @@ const Home = () => {
   }, [selectedCategory, searchQuery, menu]);
 
   const handleItemClick = (item: MenuItem) => {
+    // Allow viewing item details even when delivery is unavailable
     setSelectedItem(item);
   };
 
   const handleAddToCart = (e: React.MouseEvent, item: MenuItem) => {
     e.stopPropagation();
+    
+    // Check if delivery is available
+    if (!deliveryAvailable) {
+      toast.error('Sorry, orders are currently unavailable!');
+      return;
+    }
+    
     if (!token) {
       toast.error('Please login to add to cart!');
       return;
     }
+    
     dispatch(addItem({ 
       id: item.id, 
       name: item.name, 
@@ -72,7 +101,9 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-red-50 pt-24 sm:pt-32 md:pt-36 pb-8 sm:pb-12 px-3 sm:px-4">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-red-50 pt-20 sm:pt-24 pb-8 sm:pb-12 px-3 sm:px-4">
+
+
       <div className="container mx-auto max-w-7xl">
         {/* Header Section */}
         <div className="text-center mb-6 sm:mb-8">
@@ -86,70 +117,84 @@ const Home = () => {
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-2 bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
             Our Menu
           </h1>
-          <p className="text-sm sm:text-base text-gray-600">“We deliver the food you actually want — not the cold, late, disappointing stuff you’re tired of. Whether you’re in Urlabari, Manglabare, Durgapuri, Sombare, or Damak, we bring top-quality meals from trusted local kitchens right to your doorstep. No excuses, no delays — just reliable delivery and real flavor.” 
+          <p className="text-sm sm:text-base text-gray-600 mb-2">
+            "We deliver the food you actually want — not the cold, late, disappointing stuff you're tired of. Whether you're in Urlabari, Manglabare, Durgapuri, Sombare, or Damak, we bring top-quality meals from trusted local kitchens right to your doorstep. No excuses, no delays — just reliable delivery and real flavor."
           </p>
-            <b>For consult contact : Keshav Nepal [9816337600] </b>
+          <b className="text-sm sm:text-base">For consult contact: Keshav Nepal [9816337600]</b>
+          
+          {/* Inline Delivery Warning for Desktop/Large Screens */}
+          {!loading && !deliveryAvailable && (
+            <div className="mt-6 max-w-2xl mx-auto bg-red-50 border-2 border-red-200 rounded-xl p-4 sm:p-6 text-center">
+              <svg className="w-12 h-12 sm:w-16 sm:h-16 text-red-500 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+              </svg>
+              <h3 className="text-lg sm:text-xl font-bold text-red-800 mb-2">Orders Currently Unavailable</h3>
+              <p className="text-sm sm:text-base text-red-600 mb-1">We're not accepting orders right now.</p>
+              <p className="text-sm text-red-500">Browse our menu and add items when we're back online! 🍽️</p>
+            </div>
+          )}
         </div>
         
-        {/* Category Filter Buttons */}
+        {/* Category Filter Buttons - Always Enabled */}
         <div className="mb-6 sm:mb-8">
           <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
-         <button
-  onClick={() => setSelectedCategory('All')}
-  className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 ${
-    selectedCategory === 'All'
-      ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white'
-      : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200'
-  }`}
->
-  <span className="flex items-center space-x-2">
-    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
-      <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
-    </svg>
-    <span>All</span>
-  </span>
-</button>
+            <button
+              onClick={() => setSelectedCategory('All')}
+              className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 ${
+                selectedCategory === 'All'
+                  ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200'
+              }`}
+            >
+              <span className="flex items-center space-x-2">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+                </svg>
+                <span>All</span>
+              </span>
+            </button>
 
-<button
-  onClick={() => setSelectedCategory('CHICKEN')}
-  className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 ${
-    selectedCategory === 'CHICKEN'
-      ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white'
-      : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200'
-  }`}
->
-  <span className="flex items-center space-x-2">
-    <span>🍗</span>
-    <span>Chicken</span>
-  </span>
-</button>
-<button
-  onClick={() => setSelectedCategory('VEG')}
-  className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 ${
-    selectedCategory === 'VEG'
-      ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white'
-      : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200'
-  }`}
->
-  <span className="flex items-center space-x-2">
-    <span>🥗</span>
-    <span>Veg</span>
-  </span>
-</button>
-<button
-  onClick={() => setSelectedCategory('DRINKS')}
-  className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 ${
-    selectedCategory === 'DRINKS'
-      ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white'
-      : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200'
-  }`}
->
-  <span className="flex items-center space-x-2">
-    <span>🍾</span>
-    <span>Drinks</span>
-  </span>
-</button>
+            <button
+              onClick={() => setSelectedCategory('CHICKEN')}
+              className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 ${
+                selectedCategory === 'CHICKEN'
+                  ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200'
+              }`}
+            >
+              <span className="flex items-center space-x-2">
+                <span>🍗</span>
+                <span>Chicken</span>
+              </span>
+            </button>
 
+            <button
+              onClick={() => setSelectedCategory('VEG')}
+              className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 ${
+                selectedCategory === 'VEG'
+                  ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200'
+              }`}
+            >
+              <span className="flex items-center space-x-2">
+                <span>🥗</span>
+                <span>Veg</span>
+              </span>
+            </button>
+
+            <button
+              onClick={() => setSelectedCategory('DRINKS')}
+              className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 ${
+                selectedCategory === 'DRINKS'
+                  ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200'
+              }`}
+            >
+              <span className="flex items-center space-x-2">
+                <span>🍾</span>
+                <span>Drinks</span>
+              </span>
+            </button>
           </div>
         </div>
         
@@ -184,6 +229,13 @@ const Home = () => {
                   <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-orange-600 shadow-lg">
                     {item.category === 'CHICKEN' ? '🍗 Chicken' : item.category === 'VEG' ? '🥗 Veg': '🍾 Drinks'}
                   </div>
+                  
+                  {/* Unavailable Overlay - Lighter, doesn't block viewing */}
+                  {!deliveryAvailable && (
+                    <div className="absolute top-3 left-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+                      Order Unavailable
+                    </div>
+                  )}
                 </div>
 
                 {/* Content */}
@@ -204,12 +256,17 @@ const Home = () => {
                     </div>
                     <button
                       onClick={(e) => handleAddToCart(e, item)}
-                      className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold text-sm sm:text-base shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center space-x-1"
+                      disabled={!deliveryAvailable}
+                      className={`px-3 sm:px-4 py-2 rounded-lg font-semibold text-sm sm:text-base shadow-lg transition-all duration-300 flex items-center space-x-1 ${
+                        deliveryAvailable
+                          ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white hover:shadow-xl hover:scale-105'
+                          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      }`}
                     >
                       <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                       </svg>
-                      <span >Add </span>
+                      <span>{deliveryAvailable ? 'Add' : 'N/A'}</span>
                     </button>
                   </div>
                 </div>
@@ -219,16 +276,24 @@ const Home = () => {
         )}
       </div>
 
-      {/* Modal */}
+      {/* Modal - Can still view details */}
       {selectedItem && (
         <MenuItemDetail 
           item={selectedItem} 
           onClose={handleCloseModal} 
           onAddToCart={(customizedItem) => {
+            // Check delivery status before adding to cart
+            if (!deliveryAvailable) {
+              toast.error('Sorry, orders are currently unavailable!');
+              // Don't close modal, let user continue browsing
+              return;
+            }
+            
             if (!token) {
               toast.error('Please login to add to cart!');
               return;
             }
+            
             dispatch(addItem(customizedItem));
             toast.success('Added to cart!');
             handleCloseModal();
