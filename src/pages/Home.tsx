@@ -50,7 +50,10 @@ const Home = () => {
       const res = await api.get('/admin/delivery-status/');
       setDeliveryAvailable(res.data.available);
     } catch (err) {
-      console.error('Failed to load delivery status');
+      // If endpoint doesn't exist or returns error, assume delivery is available
+      // This allows the site to function normally if the feature isn't implemented yet
+      console.warn('Delivery status check unavailable - defaulting to available');
+      setDeliveryAvailable(true);
     }
   };
 
