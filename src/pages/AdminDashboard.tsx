@@ -246,53 +246,6 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-red-50 pt-24 pb-12 px-4">
-       {/* Delivery Toggle - Fixed Position */}
-    <div className="fixed left-6 top-32 z-40">
-      <div className="bg-white rounded-2xl shadow-2xl p-6 border-2 border-orange-100 max-w-xs">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="bg-gradient-to-br from-orange-100 to-red-100 p-2 rounded-lg">
-            <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
-            </svg>
-          </div>
-          <h3 className="text-lg font-bold text-gray-800">Delivery Status</h3>
-        </div>
-        
-        <div className="flex items-center justify-between">
-          <div className="flex-1">
-            <p className={`text-sm font-semibold ${deliveryAvailable ? 'text-green-600' : 'text-red-600'}`}>
-              {deliveryAvailable ? '✓ Available' : '✗ Unavailable'}
-            </p>
-            <p className="text-xs text-gray-500 mt-1">
-              {deliveryAvailable ? 'Customers can order' : 'Orders disabled'}
-            </p>
-          </div>
-          
-          <button
-            onClick={toggleDelivery}
-            className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 ${
-              deliveryAvailable ? 'bg-green-500' : 'bg-gray-300'
-            }`}
-          >
-            <span
-              className={`inline-block h-6 w-6 transform rounded-full bg-white shadow-lg transition-transform duration-300 ${
-                deliveryAvailable ? 'translate-x-7' : 'translate-x-1'
-              }`}
-            />
-          </button>
-        </div>
-        
-        <div className={`mt-4 px-3 py-2 rounded-lg text-xs font-medium ${
-          deliveryAvailable 
-            ? 'bg-green-50 text-green-700 border border-green-200' 
-            : 'bg-red-50 text-red-700 border border-red-200'
-        }`}>
-          {deliveryAvailable 
-            ? '🚀 Delivery service is active' 
-            : '⏸️ Delivery service is paused'}
-        </div>
-      </div>
-    </div>
 
       <div className="container mx-auto max-w-7xl">
         {/* Header */}
@@ -303,6 +256,53 @@ const AdminDashboard = () => {
           </h1>
           <p className="text-gray-600">Manage your orders efficiently</p>
         </header>
+          {/* delivery toggle switch  */}
+        <div className="mb-8">
+          <div className="bg-white rounded-2xl shadow-lg p-6 border-2 border-orange-100 max-w-md mx-auto">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="bg-gradient-to-br from-orange-100 to-red-100 p-2 rounded-lg">
+                <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-gray-800">Delivery Status</h3>
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <p className={`text-sm font-semibold ${deliveryAvailable ? 'text-green-600' : 'text-red-600'}`}>
+                  {deliveryAvailable ? '✓ Available' : '✗ Unavailable'}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  {deliveryAvailable ? 'Customers can order' : 'Orders disabled'}
+                </p>
+              </div>
+              
+              <button
+                onClick={toggleDelivery}
+                className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 ${
+                  deliveryAvailable ? 'bg-green-500' : 'bg-gray-300'
+                }`}
+              >
+                <span
+                  className={`inline-block h-6 w-6 transform rounded-full bg-white shadow-lg transition-transform duration-300 ${
+                    deliveryAvailable ? 'translate-x-7' : 'translate-x-1'
+                  }`}
+                />
+              </button>
+            </div>
+            
+            <div className={`mt-4 px-3 py-2 rounded-lg text-xs font-medium ${
+              deliveryAvailable 
+                ? 'bg-green-50 text-green-700 border border-green-200' 
+                : 'bg-red-50 text-red-700 border border-red-200'
+            }`}>
+              {deliveryAvailable 
+                ? '🚀 Delivery service is active' 
+                : '⏸️ Delivery service is paused'}
+            </div>
+          </div>
+        </div>
 
         {/* Order Management Section */}
         <section className="mb-12">
