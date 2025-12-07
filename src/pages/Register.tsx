@@ -8,62 +8,41 @@ const Register = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [otp, setOtp] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [step, setStep] = useState<'register' | 'verify'>('register');
   const navigate = useNavigate();
 
-  // Step 1: Register
   const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      toast.error('Passwords do not match!');
-      return;
-    }
+  e.preventDefault();
+  
+  if (password !== confirmPassword) {
+    toast.error('Passwords do not match!');
+    return;
+  }
 
-    setIsLoading(true);
-    try {
-      await api.post('/auth/register/', { email, name, password });
-      toast.success('OTP sent to your email!');
-      setStep('verify'); // Move to OTP verification step
-    } catch (err: any) {
-      const errorMessage =
-        err.response?.data?.error ||
-        err.response?.data?.message ||
-        err.message ||
-        'Registration failed';
-      toast.error(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Step 2: Verify OTP
-  const handleVerifyOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!otp) {
-      toast.error('Please enter the OTP.');
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const response = await api.post('/auth/verify-otp/', { email, otp });
-      localStorage.setItem('token', response.data.token);
-      toast.success('Account verified successfully!');
-      navigate('/login');
-    } catch (err: any) {
-      const errorMessage =
-        err.response?.data?.error ||
-        err.response?.data?.message ||
-        err.message ||
-        'OTP verification failed';
-      toast.error(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+  setIsLoading(true);
+  
+  try {
+    const response = await api.post('/auth/register/', { email, name, password });
+    
+    // Store token
+    localStorage.setItem('token', response.data.token);
+    
+    toast.success('Account created successfully!');
+    navigate('/login');
+  } catch (err: any) {
+    console.error('Registration error:', err);
+    console.error('Error response:', err.response);
+    console.error('Error data:', err.response?.data);
+    
+    const errorMessage = err.response?.data?.error || 
+                        err.response?.data?.message ||
+                        err.message || 
+                        'Registration failed';
+    toast.error(errorMessage);
+  } finally {
+    setIsLoading(false);
+  }
+};
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-red-50 flex items-center justify-center p-4 pt-24">
       <div className="w-full max-w-md">
@@ -73,10 +52,10 @@ const Register = () => {
               <span className="text-5xl">☕</span>
             </div>
             <h1 className="text-3xl font-bold text-gray-800 mb-2">Join Chiya</h1>
-            <p className="text-gray-600">{step === 'register' ? 'Create your account' : 'Enter the OTP sent to your email'}</p>
+            <p className="text-gray-600">Create your account</p>
           </div>
 
-          <form onSubmit={step === 'register' ? handleRegister : handleVerifyOtp} className="space-y-6">
+          <form onSubmit={handleRegister} className="space-y-6">
             <div className="relative">
               <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
               <input
@@ -86,98 +65,57 @@ const Register = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all duration-300"
                 required
-                disabled={isLoading || step === 'verify'}
+                disabled={isLoading}
               />
             </div>
 
-            {step === 'register' && (
-              <>
-                <div className="relative">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Full Name</label>
-                  <input
-                    type="text"
-                    placeholder="Enter your name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all duration-300"
-                    required
-                    disabled={isLoading}
-                  />
-                </div>
+            <div className="relative">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Full Name</label>
+              <input
+                type="text"
+                placeholder="Enter your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all duration-300"
+                required
+                disabled={isLoading}
+              />
+            </div>
 
-                <div className="relative">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
-                  <input
-                    type="password"
-                    placeholder="Create a password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all duration-300"
-                    required
-                    disabled={isLoading}
-                  />
-                </div>
+            <div className="relative">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+              <input
+                type="password"
+                placeholder="Create a password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all duration-300"
+                required
+                disabled={isLoading}
+              />
+            </div>
 
-                <div className="relative">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Confirm Password</label>
-                  <input
-                    type="password"
-                    placeholder="Confirm your password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all duration-300"
-                    required
-                    disabled={isLoading}
-                  />
-                </div>
-              </>
-            )}
-
-            {step === 'verify' && (
-              <div className="relative">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">OTP</label>
-                <input
-                  type="text"
-                  placeholder="Enter OTP"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all duration-300"
-                  required
-                  disabled={isLoading}
-                />
-              </div>
-            )}
+            <div className="relative">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Confirm Password</label>
+              <input
+                type="password"
+                placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all duration-300"
+                required
+                disabled={isLoading}
+              />
+            </div>
 
             <button 
               type="submit" 
               disabled={isLoading}
               className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
-              <span>{isLoading ? 'Processing...' : step === 'register' ? 'Create Account' : 'Verify OTP'}</span>
+              <span>{isLoading ? 'Creating Account...' : 'Create Account'}</span>
             </button>
           </form>
-
-          {step === 'verify' && (
-            <p className="text-center mt-4 text-gray-600">
-              Didn&apos;t receive OTP?{' '}
-              <button
-                className="text-orange-600 hover:underline font-semibold"
-                onClick={async () => {
-                  try {
-                    setIsLoading(true);
-                    await api.post('/auth/resend-otp/', { email });
-                    toast.success('OTP resent successfully!');
-                  } catch (err: any) {
-                    toast.error(err.response?.data?.error || 'Failed to resend OTP');
-                  } finally {
-                    setIsLoading(false);
-                  }
-                }}
-              >
-                Resend OTP
-              </button>
-            </p>
-          )}
 
           <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
