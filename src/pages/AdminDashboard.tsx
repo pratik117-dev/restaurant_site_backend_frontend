@@ -37,15 +37,19 @@ const AdminDashboard = () => {
   const [deliveryAvailable, setDeliveryAvailable] = useState(true);
 
   const fetchOrders = async () => {
-    try {
-      const res = await api.get(`/admin/orders/?t=${Date.now()}`);
-      setOrders(res.data);
-    } catch (err) {
-      toast.error('Failed to load orders');
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    const res = await api.get(`/admin/orders/?t=${Date.now()}`);
+    // Sort orders by created_at date - newest first
+    const sortedOrders = res.data.sort((a: Order, b: Order) => 
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    );
+    setOrders(sortedOrders);
+  } catch (err) {
+    toast.error('Failed to load orders');
+  } finally {
+    setLoading(false);
+  }
+};
 
   const fetchMenu = async () => {
     try {
