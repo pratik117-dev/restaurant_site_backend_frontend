@@ -97,11 +97,7 @@ const Cart = () => {
                       </h2>
                       <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-1 sm:mt-2">
                         <div className="flex items-center space-x-1 text-green-600">
-                          <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clipRule="evenodd" />
-                          </svg>
-                          <span className="font-semibold text-base sm:text-lg">${item.price}</span>
+                          <span className="font-semibold text-base sm:text-lg">RS. {item.price}</span>
                         </div>
                         <span className="text-gray-400 hidden sm:inline">×</span>
                         <div className="bg-orange-50 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full">
@@ -109,7 +105,7 @@ const Cart = () => {
                         </div>
                       </div>
                       <p className="text-gray-500 text-xs sm:text-sm mt-1">
-                        Subtotal: <span className="font-semibold text-gray-700">${(item.price * item.quantity).toFixed(2)}</span>
+                        Subtotal: <span className="font-semibold text-gray-700">Rs. {(item.price * item.quantity).toFixed(2)}</span>
                       </p>
                     </div>
                     
@@ -141,17 +137,17 @@ const Cart = () => {
                 <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
                   <div className="flex justify-between text-gray-600 text-sm sm:text-base">
                     <span>Subtotal ({items.length} items)</span>
-                    <span className="font-semibold">${subtotal.toFixed(2)}</span>
+                    <span className="font-semibold">Rs. {subtotal.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-gray-600 text-sm sm:text-base">
                     <span>Delivery Charge</span>
-                    <span className="font-semibold text-orange-600">${deliveryCharge.toFixed(2)}</span>
+                    <span className="font-semibold text-orange-600">Rs. {deliveryCharge.toFixed(2)}</span>
                   </div>
                   <div className="border-t border-gray-200 pt-2 sm:pt-3">
                     <div className="flex justify-between items-center">
                       <span className="text-base sm:text-lg font-bold text-gray-800">Total</span>
                       <div className="text-right">
-                        <div className="text-xl sm:text-2xl font-bold text-green-600">${total.toFixed(2)}</div>
+                        <div className="text-xl sm:text-2xl font-bold text-green-600">Rs. {total.toFixed(2)}</div>
                       </div>
                     </div>
                   </div>
