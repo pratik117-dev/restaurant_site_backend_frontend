@@ -189,11 +189,11 @@ const ContactPage = () => {
                   <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">Call Us</h3>
                   <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
                     <span className="hover:text-orange-600 transition-colors cursor-pointer">
-                      +977 9849507462
+                      +977 9816337600
                     </span>
                     <br />
                     <span className="hover:text-orange-600 transition-colors cursor-pointer">
-                      +977 9849507462
+                      +977 970-4361161
                     </span>
                   </p>
                 </div>
@@ -212,11 +212,11 @@ const ContactPage = () => {
                   <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">Email Us</h3>
                   <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
                     <span className="hover:text-orange-600 transition-colors cursor-pointer">
-                      chiyahub@gmail.com
+                      Chiyahuburlabari@gamil.com
                     </span>
                     <br />
                     <span className="hover:text-orange-600 transition-colors cursor-pointer">
-                      chiyahub@gmail.com
+                      Chiyahuburlabari@gamil.com
                     </span>
                   </p>
                 </div>
