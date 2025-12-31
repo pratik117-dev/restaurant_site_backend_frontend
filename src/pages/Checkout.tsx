@@ -16,7 +16,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
-const defaultCenter: [number, number] = [27.7172, 85.3240]; // Kathmandu
+const defaultCenter: [number, number] = [26.6649, 87.6137]; // urlabari 
 
 interface SearchResult {
   display_name: string;
