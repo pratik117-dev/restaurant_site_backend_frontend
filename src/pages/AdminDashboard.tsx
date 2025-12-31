@@ -12,6 +12,8 @@ interface Order {
   created_at: string;
   phone?: string;
   location?: string;
+  latitude?: number;
+  longitude?: number;
   delivery_charge: number;
 }
 
@@ -32,24 +34,22 @@ const AdminDashboard = () => {
   const [showMenuForm, setShowMenuForm] = useState(false);
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
   const [newItem, setNewItem] = useState({ name: '', description: '', price: '', category: 'VEG', image: null as File | null });
-
-  // toggle switch 
   const [deliveryAvailable, setDeliveryAvailable] = useState(true);
+  const [selectedOrderForMap, setSelectedOrderForMap] = useState<Order | null>(null);
 
   const fetchOrders = async () => {
-  try {
-    const res = await api.get(`/admin/orders/?t=${Date.now()}`);
-    // Sort orders by created_at date - newest first
-    const sortedOrders = res.data.sort((a: Order, b: Order) => 
-      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-    );
-    setOrders(sortedOrders);
-  } catch (err) {
-    toast.error('Failed to load orders');
-  } finally {
-    setLoading(false);
-  }
-};
+    try {
+      const res = await api.get(`/admin/orders/?t=${Date.now()}`);
+      const sortedOrders = res.data.sort((a: Order, b: Order) => 
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+      setOrders(sortedOrders);
+    } catch (err) {
+      toast.error('Failed to load orders');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchMenu = async () => {
     try {
@@ -60,15 +60,14 @@ const AdminDashboard = () => {
     }
   };
 
-  // toggle switch 
   const fetchDeliveryStatus = async () => {
-  try {
-    const res = await api.get('/admin/delivery-status/');
-    setDeliveryAvailable(res.data.available);
-  } catch (err) {
-    console.error('Failed to load delivery status');
-  }
-};
+    try {
+      const res = await api.get('/admin/delivery-status/');
+      setDeliveryAvailable(res.data.available);
+    } catch (err) {
+      console.error('Failed to load delivery status');
+    }
+  };
 
   useEffect(() => {
     fetchOrders();
@@ -230,17 +229,25 @@ const AdminDashboard = () => {
   };
 
   const toggleDelivery = async () => {
-  const newStatus = !deliveryAvailable;
-  setDeliveryAvailable(newStatus);
-  
-  try {
-    await api.patch('/admin/delivery-status/', { available: newStatus });
-    toast.success(`Delivery ${newStatus ? 'enabled' : 'disabled'}!`);
-  } catch (err) {
-    setDeliveryAvailable(!newStatus);
-    toast.error('Failed to update delivery status');
-  }
-};
+    const newStatus = !deliveryAvailable;
+    setDeliveryAvailable(newStatus);
+    
+    try {
+      await api.patch('/admin/delivery-status/', { available: newStatus });
+      toast.success(`Delivery ${newStatus ? 'enabled' : 'disabled'}!`);
+    } catch (err) {
+      setDeliveryAvailable(!newStatus);
+      toast.error('Failed to update delivery status');
+    }
+  };
+
+  const openLocationInMap = (order: Order) => {
+    if (order.latitude && order.longitude) {
+      setSelectedOrderForMap(order);
+    } else {
+      toast.error('No location coordinates available for this order');
+    }
+  };
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center">
@@ -250,7 +257,6 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-red-50 pt-24 pb-12 px-4">
-
       <div className="container mx-auto max-w-7xl">
         {/* Header */}
         <header className="text-center mb-8">
@@ -260,7 +266,8 @@ const AdminDashboard = () => {
           </h1>
           <p className="text-gray-600">Manage your orders efficiently</p>
         </header>
-          {/* delivery toggle switch  */}
+
+        {/* Delivery Toggle */}
         <div className="mb-8">
           <div className="bg-white rounded-2xl shadow-lg p-6 border-2 border-orange-100 max-w-md mx-auto">
             <div className="flex items-center gap-3 mb-3">
@@ -392,14 +399,27 @@ const AdminDashboard = () => {
                           </div>
                         </div>
 
-                        <div className="flex items-start gap-2">
+                        <div className="flex items-start gap-2 md:col-span-2">
                           <svg className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                           </svg>
-                          <div>
+                          <div className="flex-1">
                             <p className="text-xs text-gray-500 font-medium">Location</p>
-                            <p className="text-sm text-gray-800 font-semibold">{order.location || 'Not provided'}</p>
+                            <div className="flex items-start gap-2">
+                              <p className="text-sm text-gray-800 font-semibold flex-1">{order.location || 'Not provided'}</p>
+                              {order.latitude && order.longitude && (
+                                <button
+                                  onClick={() => openLocationInMap(order)}
+                                  className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg text-xs font-medium transition-colors duration-200 flex items-center gap-1 whitespace-nowrap"
+                                >
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                                  </svg>
+                                  Open in Map
+                                </button>
+                              )}
+                            </div>
                           </div>
                         </div>
 
@@ -524,7 +544,7 @@ const AdminDashboard = () => {
                           ? 'bg-green-100 text-green-800 border border-green-300' 
                           : 'bg-orange-100 text-orange-800 border border-orange-300'
                       }`}>
-                        {item.category === 'VEG' ? '🥗 Vegetarian' : item.category=== 'CHICKEN'?'🍗 Chicken': '🍾 Drinks' }
+                        {item.category === 'VEG' ? '🥗 Vegetarian' : item.category === 'CHICKEN' ? '🍗 Chicken' : '🍾 Drinks'}
                       </span>
                     </div>
                   </div>
@@ -568,6 +588,118 @@ const AdminDashboard = () => {
           </div>
         </section>
       </div>
+
+      {/* Google Maps Modal */}
+      {selectedOrderForMap && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+            <div className="sticky top-0 bg-white border-b border-orange-100 px-6 py-4 rounded-t-2xl flex items-center justify-between z-10">
+              <div>
+                <h3 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                  <div className="bg-gradient-to-br from-orange-100 to-red-100 p-2 rounded-lg">
+                    <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <span>Delivery Location - Order #{selectedOrderForMap.id}</span>
+                </h3>
+                <p className="text-sm text-gray-600 mt-1 ml-12">{selectedOrderForMap.user_name}</p>
+              </div>
+              <button 
+                onClick={() => setSelectedOrderForMap(null)} 
+                className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg p-2 transition-all duration-200"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="p-6">
+              {/* Location Details */}
+              <div className="bg-gradient-to-r from-orange-50 to-red-50 p-4 rounded-xl border border-orange-200 mb-4">
+                <p className="text-sm text-gray-700 font-medium mb-2">📍 Delivery Address:</p>
+                <p className="text-gray-800">{selectedOrderForMap.location}</p>
+                <p className="text-xs text-gray-500 mt-2">
+                  Coordinates: {selectedOrderForMap.latitude}, {selectedOrderForMap.longitude}
+                </p>
+              </div>
+
+              {/* Google Maps Embed (No API Key Required) */}
+              <div className="border-2 border-gray-200 rounded-xl overflow-hidden mb-4" style={{ height: '500px' }}>
+                <iframe
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  src={`https://maps.google.com/maps?q=${selectedOrderForMap.latitude},${selectedOrderForMap.longitude}&z=15&output=embed`}
+                ></iframe>
+              </div>
+
+              {/* Navigation Buttons */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                <a
+                  href={`https://www.google.com/maps/dir/?api=1&destination=${selectedOrderForMap.latitude},${selectedOrderForMap.longitude}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                  </svg>
+                  <span>Navigate with Google Maps</span>
+                </a>
+
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${selectedOrderForMap.latitude},${selectedOrderForMap.longitude}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                  <span>View in Google Maps</span>
+                </a>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(`${selectedOrderForMap.latitude}, ${selectedOrderForMap.longitude}`);
+                    toast.success('Coordinates copied to clipboard!');
+                  }}
+                  className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-6 py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  <span>Copy Coordinates</span>
+                </button>
+                <button
+                  onClick={() => setSelectedOrderForMap(null)}
+                  className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300"
+                >
+                  Close
+                </button>
+              </div>
+
+              {/* Info */}
+              <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200 flex items-start gap-2">
+                <svg className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-xs text-blue-700">
+                  Click "Navigate with Google Maps" to get turn-by-turn directions to the delivery location.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Add/Edit Item Modal */}
       {(showMenuForm || editingItem) && (

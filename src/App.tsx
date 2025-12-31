@@ -9,6 +9,7 @@ import Cart from './pages/Cart';
 import MyOrders from './pages/MyOrders';
 import AdminDashboard from './pages/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import 'leaflet/dist/leaflet.css';
 // ... (rest of the file remains the same)
 
 import Checkout from './pages/Checkout';  // Added
